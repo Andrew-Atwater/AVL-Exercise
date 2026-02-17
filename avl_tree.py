@@ -14,26 +14,24 @@ class AVLTree(BinaryTree):
         
         #cur is a node if we get past the if statements
         if cur.data == data:
-            return cur
+            print(f"Data {data} already exists, cannot be added")
+            return
         
         if data < cur.data:
-            cur.left = self.add(cur.left, data)
+            cur.left = self.addRecursive(cur.left, data)
         
         elif data > cur.data:
-            cur.right = self.add(cur.right, data)
+            cur.right = self.addRecursive(cur.right, data)
             
-        if cur.left == None:
-            leftHeight = 0
-        else:
-            leftHeight = cur.left.height
+    def addRecursive(cur, data):
+        if data < cur.data:
+            cur.left.addRecursive(cur.left, data)
         
-        if cur.right == None:
-            rightHeight = 0
-        else:
-            rightHeight = cur.right.height
+        elif data > cur.data:
+            cur.right.addRecursive(cur.right, data)
             
-        
         balance = cur.calcBalance()
+        
         if balance > 1:
             #left imbalance
             leftBalance = cur.left.calcBalance()
@@ -47,8 +45,6 @@ class AVLTree(BinaryTree):
             if cur.right.calcBalance == 1:
                 cur.right.rightRotate()
                 cur = cur.leftRotate()
-        
-        return cur
     
     def calcBalance(cur):
         pass
@@ -74,12 +70,6 @@ class AVLTree(BinaryTree):
 visualizer = TreeVisualizer()
 
 tree = AVLTree()
-tree.add(10, tree.head)
-tree.add(20, tree.head)
-tree.add(30, tree.head)
-tree.add(40, tree.head)
-tree.add(50, tree.head)
-tree.add(1, tree.head)
 
 visualizer.add_to_stack(tree)
 visualizer.visualize()
